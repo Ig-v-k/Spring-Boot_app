@@ -1,6 +1,8 @@
 package com.project.basic.controller;
 
+import com.project.basic.domain.Message;
 import com.project.basic.domain.User;
+import com.project.basic.repos.MessageRepo;
 import com.project.basic.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,39 +16,38 @@ import java.util.Map;
 public class BasicController {
 
     @Autowired
-    private UserRepo userRepo;
+    private MessageRepo messageRepo;
 
-    @GetMapping("/app")
-    public String app(@RequestParam(name="name", required=false, defaultValue="World") String name, Map<String, Object> model) {
-        model.put("name", name);
+    @GetMapping("/")
+    public String app(Map<String, Object> model) {
         return "appHome";
     }
 
-    @GetMapping
+    @GetMapping("/app")
     public String listUser(Map<String, Object> model) {
-        Iterable<User> users = userRepo.findAll();
-        model.put("users", users);
-        return "main";
+        Iterable<Message> messages = messageRepo.findAll();
+        model.put("messages", messages);
+        return "app";
     }
 
-    @PostMapping
-    public String addUser(@RequestParam String userName, @RequestParam String password, Map<String, Object> model) {
-        User user= new User(userName, password);
-        userRepo.save(user);
-        Iterable<User> users = userRepo.findAll();
-        model.put("users", users);
-        return "main";
+    @PostMapping("/app")
+    public String addUser(@RequestParam String text, @RequestParam String tag, Map<String, Object> model) {
+        Message message= new Message(text, tag);
+        messageRepo.save(message);
+        Iterable<Message> messages = messageRepo.findAll();
+        model.put("messages", messages);
+        return "app";
     }
 
     @PostMapping("filter")
     public String filterUser(@RequestParam String filter, Map<String, Object> model) {
-        Iterable<User> users;
+        Iterable<Message> messages;
         if (filter != null && !filter.isEmpty()) {
-            users = userRepo.findByUserName(filter);
+            messages = messageRepo.findByTag(filter);
         } else {
-            users = userRepo.findAll();
+            messages = messageRepo.findAll();
         }
-        model.put("users", users);
-        return "main";
+        model.put("messages", messages);
+        return "app";
     }
 }
