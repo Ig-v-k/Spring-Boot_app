@@ -22,21 +22,18 @@ public class BasicController {
     }
 
     @GetMapping("/")
-    public String app(Map<String, Object> model) {
+    public String greeting(Map<String, Object> model) {
         return "appHome";
     }
 
     @GetMapping("/app")
-    public String listUser(
-            @RequestParam(required = false, defaultValue = "") String filter,
-            Model model) {
+    public String app(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
         Iterable<Message> messages = messageRepo.findAll();
 
-        if (filter != null && !filter.isEmpty()) {
-            messages = messageRepo.findByTag(filter);
-        } else {
+        if (filter != null && !filter.isEmpty())
+            messages = messageRepo.findByText(filter);
+        else
             messages = messageRepo.findAll();
-        }
 
         model.addAttribute("messages", messages);
         model.addAttribute("filter", filter);
@@ -45,11 +42,11 @@ public class BasicController {
     }
 
     @PostMapping("/app")
-    public String addUser(
+    public String add(
             @AuthenticationPrincipal User user,
             @RequestParam String text,
             @RequestParam String tag, Map<String, Object> model) {
-        Message message= new Message(text, tag, user);
+        Message message = new Message(text, tag, user);
         messageRepo.save(message);
         Iterable<Message> messages = messageRepo.findAll();
         model.put("messages", messages);
