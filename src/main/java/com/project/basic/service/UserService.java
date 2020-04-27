@@ -7,10 +7,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import java.util.Collections;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -18,8 +19,8 @@ public class UserService implements UserDetailsService {
     private final UserRepo userRepo;
     private final MailSender mailSender;
 
-    public UserService(UserRepo userRepo, MailSender mailSender) {
-        this.userRepo = userRepo;
+    public UserService(UserRepo userService, MailSender mailSender) {
+        this.userRepo = userService;
         this.mailSender = mailSender;
     }
 
@@ -41,18 +42,22 @@ public class UserService implements UserDetailsService {
 
         userRepo.save(user);
 
+        sendMessage(user);
+
+        return true;
+    }
+
+    private void sendMessage(User user) {
         if (!StringUtils.isEmpty(user.getEmail())) {
             String message = String.format(
                     "Hello, %s! \n" +
-                            "Welcome to Sweater. Please, visit next link: http://localhost:8080/activate/%s",
+                            "Welcome to LundryKey. Please, visit next link: http://localhost:8080/activate/%s",
                     user.getUsername(),
                     user.getActivationCode()
             );
 
             mailSender.send(user.getEmail(), "Activation code", message);
         }
-
-        return true;
     }
 
     public boolean activateUser(String code) {
@@ -67,5 +72,60 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
 
         return true;
+    }
+
+    public List<User> findAll() {
+        return userRepo.findAll();
+    }
+
+    public User findByUsername(String username) {
+        return userRepo.findByUsername(username);
+    }
+
+    public void saveUser(User user, String username, Map<String, String> form) {
+        user.setUsername(username);
+
+        Set<String> roles = Arrays.stream(Role.values())
+                .map(Role::name)
+                .collect(Collectors.toSet());
+
+        user.getRoles().clear();
+
+        for (String key : form.keySet()) {
+            if (roles.contains(key)) {
+                user.getRoles().add(Role.valueOf(key));
+            }
+        }
+
+        userRepo.save(user);
+    }
+
+    public void deleteById(Long userId) {
+        userRepo.deleteById(userId);
+    }
+
+    public void updateProfile(User user, String password, String email) {
+        String userEmail = user.getEmail();
+
+        boolean isEmailChanged = (email != null && !email.equals(userEmail)) ||
+                (userEmail != null && !userEmail.equals(email));
+
+        if (isEmailChanged) {
+            user.setEmail(email);
+
+            if (!StringUtils.isEmpty(email)) {
+                user.setActivationCode(UUID.randomUUID().toString());
+            }
+        }
+
+        if (!StringUtils.isEmpty(password)) {
+            user.setPassword(password);
+        }
+
+        userRepo.save(user);
+
+        if (isEmailChanged) {
+            sendMessage(user);
+        }
     }
 }

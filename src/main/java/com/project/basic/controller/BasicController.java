@@ -28,7 +28,7 @@ public class BasicController {
 
     @GetMapping("/app")
     public String app(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
-        Iterable<Message> messages = messageRepo.findAll();
+        Iterable<Message> messages;
 
         if (filter != null && !filter.isEmpty())
             messages = messageRepo.findByText(filter);
@@ -46,7 +46,13 @@ public class BasicController {
             @AuthenticationPrincipal User user,
             @RequestParam String text,
             @RequestParam String tag, Map<String, Object> model) {
-        Message message = new Message(text, tag, user);
+        Message message;
+
+        if(null == text || text.isEmpty())
+            message = new Message("", tag, user);
+        else
+            message = new Message(text, tag, user);
+
         messageRepo.save(message);
         Iterable<Message> messages = messageRepo.findAll();
         model.put("messages", messages);

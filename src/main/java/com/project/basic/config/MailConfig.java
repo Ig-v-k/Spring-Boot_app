@@ -28,6 +28,12 @@ public class MailConfig {
     @Value("${mail.debug}")
     private String debug;
 
+    @Value("${mail.smtps.ssl.chechserveridentity}")
+    private String smtpsSSL;
+
+    @Value("${mail.smtps.ssl.trust}")
+    private String trustSSL;
+
     @Bean
     public JavaMailSender getMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -39,6 +45,8 @@ public class MailConfig {
 
         Properties properties = mailSender.getJavaMailProperties();
 
+        properties.setProperty("mail.smtps.ssl.chechserveridentity", smtpsSSL);
+        properties.setProperty("mail.smtps.ssl.trust", trustSSL);
         properties.setProperty("mail.transport.protocol", protocol);
         properties.setProperty("mail.debug", debug);
 

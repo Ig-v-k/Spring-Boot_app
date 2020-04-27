@@ -18,7 +18,7 @@
                     <th scope="row">${user.id}</th>
                     <td>${user.username}</td>
                     <td><#list user.roles as role>${role}<#sep>, </#list></td>
-                    <td><a href="/user/${user.id}">edit</a></td>
+                    <td><a href="/user/${user.username}">edit</a> &emsp;&emsp;<a href="/user/${user.username}/${user.id}">delete</a></td>
                 </tr>
             </#list>
         </tbody>
