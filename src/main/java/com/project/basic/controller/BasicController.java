@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Date;
 import java.util.Map;
 
 @Controller
@@ -37,6 +38,7 @@ public class BasicController {
 
         model.addAttribute("messages", messages);
         model.addAttribute("filter", filter);
+        model.addAttribute("_date", new Date().toString());
 
         return "app";
     }
