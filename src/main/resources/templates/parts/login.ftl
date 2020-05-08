@@ -8,11 +8,10 @@
             <div class="row justify-content-center">
                 <div class="row">
                     <div class="col-md-auto">
-                        <label for="inputLogin" class="sr-only">Login</label>
-                        <input type="text" id="inputLogin" class="form-control" placeholder="Login" required="required" autofocus="" name="username">
+                        <label for="inputCardNumber" class="sr-only">Card Number</label>
+                        <input type="text" id="inputCardNumber" class="form-control" placeholder="000000" required="required" name="card_number">
                     </div>
                 </div>
-                <div class="w-100 d-none d-md-block"></div>
                 <div class="row">
                     <div class="col-md-auto">
                         <label for="inputPassword" class="sr-only">Password</label>
@@ -20,6 +19,13 @@
                     </div>
                 </div>
                 <#if isRegisterForm>
+                    <div class="row">
+                        <div class="col-md-auto">
+                            <label for="inputRoomNumber" class="sr-only">Room Number</label>
+                            <input id="inputRoomNumber" type="number" name="room_number" step="1" min="200" max="550" placeholder="000" autofocus required>
+                            <span class="validity"></span>
+                        </div>
+                    </div>
                     <div class="w-100 d-none d-md-block"></div>
                     <div class="row">
                         <div class="col-md-auto">

@@ -1,35 +1,15 @@
 <#import "parts/common_key.ftl" as cc>
+<#include "parts/security.ftl">
 <#import "parts/date_time_form.ftl" as dtf>
+
 <@cc.page>
 
-    <@dtf.date_time_form_page/>
-
-    <#if _date1??>
+    <#if isAdmin>
+        <@dtf.date_time_form_page/>
         <h3 id="asdasd"></h3>
     </#if>
 
     <br><br>
-<#--    <div class="container">-->
-<#--        <div class="clock-column">-->
-<#--            <p class="clock-day clock-timer"></p>-->
-<#--            <p class="clock-label">Days</p>-->
-<#--        </div>-->
-
-<#--        <div class="clock-column">-->
-<#--            <p class="clock-hours clock-timer"></p>-->
-<#--            <p class="clock-label">Hours</p>-->
-<#--        </div>-->
-
-<#--        <div class="clock-column">-->
-<#--            <p class="clock-minutes clock-timer"></p>-->
-<#--            <p class="clock-label">Minutes</p>-->
-<#--        </div>-->
-
-<#--        <div class="clock-column">-->
-<#--            <p class="clock-seconds clock-timer"></p>-->
-<#--            <p class="clock-label">Seconds</p>-->
-<#--        </div>-->
-<#--    </div>-->
 
     <div class="container">
         <h1>Countdown time:</h1>
@@ -42,7 +22,7 @@
     </div>
 
     <script>
-        document.getElementById('asdasd').innerText = "${_date1!"empty"}";
+        document.getElementById('asdasd').innerText = "<#if _date1??>${_date1}<#else>empty</#if>";
         var date_date = "${_date1}";
 
         loadEventListeners();

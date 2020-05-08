@@ -6,7 +6,7 @@ import com.project.basic.repos.UserRepo;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Repository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -16,12 +16,21 @@ import java.util.stream.Collectors;
 @Service
 public class UserService implements UserDetailsService {
 
-    private final UserRepo userRepo;
-    private final MailSender mailSender;
+    private UserRepo userRepo;
+    private MailSender mailSender;
 
-    public UserService(UserRepo userRepo, MailSender mailSender) {
-        this.userRepo = userRepo;
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    private PasswordEncoder passwordEncoder;
+
+    public void setMailSender(MailSender mailSender) {
         this.mailSender = mailSender;
+    }
+
+    public void setUserRepo(UserRepo userRepo) {
+        this.userRepo = userRepo;
     }
 
     @Override
@@ -31,6 +40,7 @@ public class UserService implements UserDetailsService {
 
     public boolean addUser(User user) {
         User userFromDb = userRepo.findByUsername(user.getUsername());
+        String password = user.getPassword();
 
         if (userFromDb != null) {
             return false;
@@ -39,6 +49,7 @@ public class UserService implements UserDetailsService {
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
+        user.setPassword(passwordEncoder.encode(password));
 
         userRepo.save(user);
 

@@ -1,5 +1,5 @@
 <#macro date_time_form_page>
-    <form action="/asd" method="post">
+    <form action="/ttime" method="post">
         <div class="clock-input">
             <label for="datename">Numer pokoju:</label>
             <input type="text" id="datename" name="nrPokoju" required="required">
