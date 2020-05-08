@@ -6,6 +6,7 @@ import com.project.basic.repos.UserRepo;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -18,8 +19,8 @@ public class UserService implements UserDetailsService {
     private final UserRepo userRepo;
     private final MailSender mailSender;
 
-    public UserService(UserRepo userService, MailSender mailSender) {
-        this.userRepo = userService;
+    public UserService(UserRepo userRepo, MailSender mailSender) {
+        this.userRepo = userRepo;
         this.mailSender = mailSender;
     }
 

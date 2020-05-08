@@ -4,42 +4,8 @@
     <head>
         <meta charset="UTF-8">
         <title>LaundryKey</title>
-        <link rel="stylesheet" href="/static/style.css">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="theme-color" content="#563d7c">
-
-        <style type="text/css">
-            h1{
-                color: #396;
-                font-weight: 100;
-                font-size: 40px;
-                margin: 40px 0px 20px;
-            }
-            #clockdiv{
-                font-family: sans-serif;
-                color: #fff;
-                display: inline-block;
-                font-weight: 100;
-                text-align: center;
-                font-size: 30px;
-            }
-            #clockdiv > div{
-                padding: 10px;
-                border-radius: 3px;
-                background: #00BF96;
-                display: inline-block;
-            }
-            #clockdiv div > span{
-                padding: 15px;
-                border-radius: 3px;
-                background: #00816A;
-                display: inline-block;
-            }
-            smalltext{
-                padding-top: 5px;
-                font-size: 16px;
-            }
-        </style>
 
         <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/sign-in/">
         <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/floating-labels/">

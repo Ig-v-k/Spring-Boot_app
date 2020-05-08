@@ -1,8 +1,7 @@
 package com.project.basic.controller;
 
-import com.project.basic.domain.Message;
 import com.project.basic.domain.User;
-import com.project.basic.repos.MessageRepo;
+import net.sf.json.JSONObject;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,17 +9,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @Controller
 public class BasicController {
-
-    private final MessageRepo messageRepo;
-
-    public BasicController(MessageRepo messageRepo) {
-        this.messageRepo = messageRepo;
-    }
+    private static final Logger LOGGER = Logger.getLogger(BasicController.class.getName());
 
     @GetMapping("/")
     public String greeting(Map<String, Object> model) {
@@ -28,36 +25,30 @@ public class BasicController {
     }
 
     @GetMapping("/app")
-    public String app(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
-        Iterable<Message> messages;
-
-        if (filter != null && !filter.isEmpty())
-            messages = messageRepo.findByText(filter);
-        else
-            messages = messageRepo.findAll();
-
-        model.addAttribute("messages", messages);
-        model.addAttribute("filter", filter);
-        model.addAttribute("_date", new Date().toString());
-
-        return "app";
+    public String keysMainPage(
+            Model model) {
+        return "timer_page";
     }
 
-    @PostMapping("/app")
-    public String add(
+    @PostMapping("/asd")
+    public String keysTimeUrl(
+            Model model,
             @AuthenticationPrincipal User user,
-            @RequestParam String text,
-            @RequestParam String tag, Map<String, Object> model) {
-        Message message;
+            @RequestParam String nrPokoju,
+            @RequestParam("time_to") String date) throws ParseException {
 
-        if(null == text || text.isEmpty())
-            message = new Message("", tag, user);
-        else
-            message = new Message(text, tag, user);
 
-        messageRepo.save(message);
-        Iterable<Message> messages = messageRepo.findAll();
-        model.put("messages", messages);
-        return "app";
+        Date date__ = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(date);
+
+        LOGGER.warning("nrPokoju --> " + nrPokoju);
+//        LOGGER.warning("time_to --> " + date.toString());
+        LOGGER.warning("time_to --> " + date);
+//        LOGGER.warning("time_to --> " + date.getTime());
+        LOGGER.warning("time_to --> " + date__);
+
+        model.addAttribute("_date1", date);
+        model.addAttribute("_user", user.getUsername());
+        return "timer_page";
+
     }
 }

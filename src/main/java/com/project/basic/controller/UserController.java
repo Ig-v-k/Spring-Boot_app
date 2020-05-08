@@ -23,7 +23,8 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
-    public String userList(Model model) {
+    public String userList(
+            Model model) {
         model.addAttribute("users", userService.findAll());
 
         return "userList";
@@ -31,7 +32,9 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("{username}")
-    public String userEditForm(@PathVariable String username, Model model) {
+    public String userEditForm(
+            @PathVariable String username,
+            Model model) {
         model.addAttribute("user", userService.findByUsername(username));
         model.addAttribute("roles", Role.values());
 
@@ -40,7 +43,10 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("{username}/{userId}")
-    public String userDelete(@PathVariable String username, @PathVariable Long userId, Model model) {
+    public String userDelete(
+            @PathVariable String username,
+            @PathVariable Long userId,
+            Model model) {
 
         userService.deleteById(userId);
 
@@ -61,7 +67,9 @@ public class UserController {
     }
 
     @GetMapping("profile")
-    public String userProfile(Model model, @AuthenticationPrincipal User user) {
+    public String userProfile(
+            Model model,
+            @AuthenticationPrincipal User user) {
         model.addAttribute("username", user.getUsername());
         model.addAttribute("email", user.getEmail());
 
@@ -69,7 +77,10 @@ public class UserController {
     }
 
     @PostMapping("profile")
-    public String userUpdateProfile(@AuthenticationPrincipal User user, @RequestParam String password, @RequestParam String email) {
+    public String userUpdateProfile(
+            @AuthenticationPrincipal User user,
+            @RequestParam String password,
+            @RequestParam String email) {
         userService.updateProfile(user, password, email);
 
         return "redirect:/user/profile";
