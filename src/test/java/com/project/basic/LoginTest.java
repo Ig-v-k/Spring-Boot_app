@@ -60,8 +60,15 @@ public class LoginTest {
     @Test
     public void badCredentials() throws Exception {
         this.mockMvc
-                .perform(post("/login").param("user", "Momocko"))
+                .perform(post("/registration")
+                        .requestAttr("username", "qwe")
+                        .requestAttr("password", "asd")
+                        .requestAttr("password2", "asd")
+                        .requestAttr("cardNumber", "3000")
+                        .requestAttr("roomNumber", "200")
+                        .requestAttr("email", "nibema4693@mailcupp.com")
+                )
                 .andDo(print())
-                .andExpect(status().isForbidden());
+                .andExpect(status().is5xxServerError());
     }
 }

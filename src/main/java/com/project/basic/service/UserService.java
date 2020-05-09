@@ -11,36 +11,35 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
+    private static final Logger LOGGER = Logger.getLogger(UserService.class.getName());
 
-    private UserRepo userRepo;
-    private MailSender mailSender;
+    private final UserRepo userRepo;
+    private final MailSender mailSender;
+    private final PasswordEncoder passwordEncoder;
 
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    private PasswordEncoder passwordEncoder;
-
-    public void setMailSender(MailSender mailSender) {
-        this.mailSender = mailSender;
-    }
-
-    public void setUserRepo(UserRepo userRepo) {
+    public UserService(UserRepo userRepo, MailSender mailSender, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
+        this.mailSender = mailSender;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByUsername(username);
+        User user = userRepo.findByUsername(username);
+        if(user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        LOGGER.info("--- LOGGER: user.username --> " + user.getUsername());
+        return user;
     }
 
     public boolean addUser(User user) {
         User userFromDb = userRepo.findByUsername(user.getUsername());
-        String password = user.getPassword();
 
         if (userFromDb != null) {
             return false;
@@ -49,7 +48,7 @@ public class UserService implements UserDetailsService {
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
-        user.setPassword(passwordEncoder.encode(password));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepo.save(user);
 
@@ -130,7 +129,7 @@ public class UserService implements UserDetailsService {
         }
 
         if (!StringUtils.isEmpty(password)) {
-            user.setPassword(password);
+            user.setPassword(passwordEncoder.encode(password));
         }
 
         userRepo.save(user);

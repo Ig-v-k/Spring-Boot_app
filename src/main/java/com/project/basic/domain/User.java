@@ -4,22 +4,41 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Set;
 
 @Entity
 @Table(name = "usr")
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank(message = "User name can't be empty")
     private String username;
+
+    @NotBlank(message = "Password can't be empty")
     private String password;
+
     private boolean active;
+
+    @Email(message = "Email is not correct")
+    @NotBlank(message = "User name can't be empty")
     private String email;
+
     private String activationCode;
+
+    @Min(value = 3000, message = "must be equal or greater than 3000")
+    @Max(value = 4000, message = "must be equal or less than 4000")
     private int cardNumber;
+
+    @Min(value = 200, message = "must be equal or greater than 200")
+    @Max(value = 550, message = "must be equal or less than 550")
     private int roomNumber;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)

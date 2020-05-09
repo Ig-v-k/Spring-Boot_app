@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.text.ParseException;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -19,12 +18,14 @@ public class BasicController {
     @GetMapping("/")
     public String greeting(
             Map<String, Object> model) {
+
         return "appHome";
     }
 
     @GetMapping("/app")
     public String keysMainPage(
             Model model) {
+
         return "timer_page";
     }
 
@@ -33,11 +34,11 @@ public class BasicController {
             Model model,
             @AuthenticationPrincipal User user,
             @RequestParam String nrPokoju,
-            @RequestParam("time_to") String date) throws ParseException {
+            @RequestParam("time_to") String date) {
 
         model.addAttribute("_date1", date);
         model.addAttribute("_user", user.getUsername());
-        return "timer_page";
 
+        return "timer_page";
     }
 }

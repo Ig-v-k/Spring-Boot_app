@@ -23,7 +23,7 @@
 
     <script>
         document.getElementById('asdasd').innerText = "<#if _date1??>${_date1}<#else>empty</#if>";
-        var date_date = "${_date1}";
+        var date_date = "<#if _date1??>${_date1}</#if>";
 
         loadEventListeners();
 
