@@ -4,11 +4,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -27,9 +27,9 @@ public class User implements UserDetails {
 
     private boolean active;
 
-    @Email(message = "Email is not correct")
-    @NotBlank(message = "User name can't be empty")
-    private String email;
+//    @Email(message = "Email is not correct")
+//    @NotBlank(message = "User name can't be empty")
+//    private String email;
 
     private String activationCode;
 
@@ -40,6 +40,8 @@ public class User implements UserDetails {
     @Min(value = 200, message = "must be equal or greater than 200")
     @Max(value = 550, message = "must be equal or less than 550")
     private int roomNumber;
+
+    private String usrdate;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -115,13 +117,13 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public String getEmail() {
-        return email;
-    }
+//    public String getEmail() {
+//        return email;
+//    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
 
     public String getActivationCode() {
         return activationCode;
@@ -145,5 +147,26 @@ public class User implements UserDetails {
 
     public void setRoomNumber(int roomNumber) {
         this.roomNumber = roomNumber;
+    }
+
+    public String getDate() {
+        return usrdate;
+    }
+
+    public void setDate(String usrdate) {
+        this.usrdate = usrdate;
+    }
+
+    @Override
+    public String toString() {
+        return "User info:\n" +
+                "username -> " + this.username + "\n" +
+                "password -> " + this.password + "\n" +
+                "usrdate -> " + this.usrdate + "\n" +
+//                "email -> " + this.email + "\n" +
+                "active -> " + this.active + "\n" +
+                "activationCode -> " + this.activationCode + "\n" +
+                "roomNumber -> " + this.roomNumber + "\n" +
+                "cardNumber -> " + this.cardNumber + "\n";
     }
 }

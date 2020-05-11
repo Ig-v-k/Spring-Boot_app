@@ -3,12 +3,14 @@ package com.project.basic.service;
 import com.project.basic.domain.Role;
 import com.project.basic.domain.User;
 import com.project.basic.repos.UserRepo;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -19,22 +21,23 @@ public class UserService implements UserDetailsService {
     private static final Logger LOGGER = Logger.getLogger(UserService.class.getName());
 
     private final UserRepo userRepo;
-    private final MailSender mailSender;
+//    private final MailSender mailSender;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepo userRepo, MailSender mailSender, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepo userRepo,/* MailSender mailSender,*/ PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
-        this.mailSender = mailSender;
+//        this.mailSender = mailSender;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findByUsername(username);
+
         if(user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        LOGGER.info("--- LOGGER: user.username --> " + user.getUsername());
+
         return user;
     }
 
@@ -52,23 +55,23 @@ public class UserService implements UserDetailsService {
 
         userRepo.save(user);
 
-        sendMessage(user);
+//        sendMessage(user);
 
         return true;
     }
 
-    private void sendMessage(User user) {
-        if (!StringUtils.isEmpty(user.getEmail())) {
-            String message = String.format(
-                    "Hello, %s! \n" +
-                            "Welcome to LundryKey. Please, visit next link: http://localhost:8080/activate/%s",
-                    user.getUsername(),
-                    user.getActivationCode()
-            );
-
-            mailSender.send(user.getEmail(), "Activation code", message);
-        }
-    }
+//    private void sendMessage(User user) {
+//        if (!StringUtils.isEmpty(user.getEmail())) {
+//            String message = String.format(
+//                    "Hello, %s! \n" +
+//                            "Welcome to LundryKey. Please, visit next link: http://localhost:8080/activate/%s for to continue registration",
+//                    user.getUsername(),
+//                    user.getActivationCode()
+//            );
+//
+//            mailSender.send(user.getEmail(), "Activation code", message);
+//        }
+//    }
 
     public boolean activateUser(String code) {
         User user = userRepo.findByActivationCode(code);
@@ -114,28 +117,36 @@ public class UserService implements UserDetailsService {
         userRepo.deleteById(userId);
     }
 
-    public void updateProfile(User user, String password, String email) {
-        String userEmail = user.getEmail();
-
-        boolean isEmailChanged = (email != null && !email.equals(userEmail)) ||
-                (userEmail != null && !userEmail.equals(email));
-
-        if (isEmailChanged) {
-            user.setEmail(email);
-
-            if (!StringUtils.isEmpty(email)) {
-                user.setActivationCode(UUID.randomUUID().toString());
-            }
-        }
-
-        if (!StringUtils.isEmpty(password)) {
-            user.setPassword(passwordEncoder.encode(password));
-        }
-
-        userRepo.save(user);
-
-        if (isEmailChanged) {
-            sendMessage(user);
-        }
+    public void addUserTime(int roomNumber, String date) {
+        userRepo.addUserTime(roomNumber, date);
     }
+
+    public User findByRoomNumber(int roomNumber) {
+        return userRepo.findByRoomNumber(roomNumber);
+    }
+
+//    public void updateProfile(User user, String password, String email) {
+//        String userEmail = user.getEmail();
+//
+//        boolean isEmailChanged = (email != null && !email.equals(userEmail)) ||
+//                (userEmail != null && !userEmail.equals(email));
+//
+//        if (isEmailChanged) {
+//            user.setEmail(email);
+//
+//            if (!StringUtils.isEmpty(email)) {
+//                user.setActivationCode(UUID.randomUUID().toString());
+//            }
+//        }
+//
+//        if (!StringUtils.isEmpty(password)) {
+//            user.setPassword(passwordEncoder.encode(password));
+//        }
+//
+//        userRepo.save(user);
+//
+//        if (isEmailChanged) {
+//            sendMessage(user);
+//        }
+//    }
 }

@@ -86,18 +86,19 @@
                     <div class="w-100 d-none d-md-block"></div>
 
                     <#-- emailError -->
-                    <div class="row">
-                        <div class="col-md-auto">
-                            <label for="inputEmail" class="sr-only">Email</label>
-                            <input id="inputEmail" type="email" name="email" class="form-control ${(emailError??)?string('is-invalid', '')}"
-                                   value="<#if user??>${user.email}</#if>" required="required" placeholder="some@some.com" />
-                            <#if emailError??>
-                                <div class="invalid-feedback">
-                                    ${emailError}
-                                </div>
-                            </#if>
-                        </div>
-                    </div>
+<#--                    <div class="row">-->
+<#--                        <div class="col-md-auto">-->
+<#--                            <label for="inputEmail" class="sr-only">Email</label>-->
+<#--                            <input id="inputEmail" type="email" name="email" class="form-control ${(emailError??)?string('is-invalid', '')}"-->
+<#--                                   value="<#if user??>${user.email}</#if>" required="required" placeholder="some@some.com" />-->
+<#--                            <#if emailError??>-->
+<#--                                <div class="invalid-feedback">-->
+<#--                                    ${emailError}-->
+<#--                                </div>-->
+<#--                            </#if>-->
+<#--                        </div>-->
+<#--                    </div>-->
+
                 </#if>
             </div>
             <input type="hidden" name="_csrf" value="${_csrf.token}" />

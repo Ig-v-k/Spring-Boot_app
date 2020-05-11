@@ -4,6 +4,9 @@
 *.classpath
 *.project
 
+# Propertie
+*.properties
+
 # Log file
 *.log
 
