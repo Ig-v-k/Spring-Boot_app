@@ -2,33 +2,39 @@ package com.project.basic.service;
 
 import com.project.basic.domain.Role;
 import com.project.basic.domain.User;
+import com.project.basic.domain.dto.UsersDto;
+import com.project.basic.exeption.ValidationException;
 import com.project.basic.repos.UserRepo;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
+
 @Service
+@AllArgsConstructor
 public class UserService implements UserDetailsService {
-    private static final Logger LOGGER = Logger.getLogger(UserService.class.getName());
+
+    private final DateFormat inputformatForDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.US);
+    private final DateFormat outputformatForDate = new SimpleDateFormat("E dd/MM   HH:mm", Locale.US);
 
     private final UserRepo userRepo;
-//    private final MailSender mailSender;
+//  private final MailSender mailSender;
     private final PasswordEncoder passwordEncoder;
+    private final UsersConverter usersConverter;
 
-    public UserService(UserRepo userRepo,/* MailSender mailSender,*/ PasswordEncoder passwordEncoder) {
-        this.userRepo = userRepo;
-//        this.mailSender = mailSender;
-        this.passwordEncoder = passwordEncoder;
-    }
+//  @Value("${hostname}")
+//  private String hostname;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -55,23 +61,24 @@ public class UserService implements UserDetailsService {
 
         userRepo.save(user);
 
-//        sendMessage(user);
+//      sendMessage(user);
 
         return true;
     }
 
-//    private void sendMessage(User user) {
-//        if (!StringUtils.isEmpty(user.getEmail())) {
-//            String message = String.format(
-//                    "Hello, %s! \n" +
-//                            "Welcome to LundryKey. Please, visit next link: http://localhost:8080/activate/%s for to continue registration",
-//                    user.getUsername(),
-//                    user.getActivationCode()
-//            );
-//
-//            mailSender.send(user.getEmail(), "Activation code", message);
-//        }
-//    }
+/*    private void sendMessage(User user) {
+        if (!StringUtils.isEmpty(user.getEmail())) {
+            String message = String.format(
+                    "Hello, %s! \n" +
+                            "Welcome to LundryKey. Please, visit next link: http://%s/activate/%s for to continue registration",
+                    user.getUsername(),
+                    hostname,
+                    user.getActivationCode()
+            );
+
+            mailSender.send(user.getEmail(), "Activation code", message);
+        }
+    }*/
 
     public boolean activateUser(String code) {
         User user = userRepo.findByActivationCode(code);
@@ -113,40 +120,82 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
     }
 
-    public void deleteById(Long userId) {
-        userRepo.deleteById(userId);
+    public void flushUserOnlyDateById_Service(int userRoomNumber) {
+        userRepo.flushUserOnlyDateById_Repository(null, userRoomNumber);
     }
 
-    public void addUserTime(int roomNumber, String date) {
-        userRepo.addUserTime(roomNumber, date);
+    public void addUserTime(int roomNumber, LocalDateTime date) throws ParseException {
+
+        Date date1 = inputformatForDate.parse(date.toString());
+        String mainOutputTime = outputformatForDate.format(date1);
+
+        userRepo.addUserTime(roomNumber, mainOutputTime);
     }
 
     public User findByRoomNumber(int roomNumber) {
         return userRepo.findByRoomNumber(roomNumber);
     }
 
-//    public void updateProfile(User user, String password, String email) {
-//        String userEmail = user.getEmail();
-//
-//        boolean isEmailChanged = (email != null && !email.equals(userEmail)) ||
-//                (userEmail != null && !userEmail.equals(email));
-//
-//        if (isEmailChanged) {
-//            user.setEmail(email);
-//
-//            if (!StringUtils.isEmpty(email)) {
-//                user.setActivationCode(UUID.randomUUID().toString());
-//            }
-//        }
-//
-//        if (!StringUtils.isEmpty(password)) {
-//            user.setPassword(passwordEncoder.encode(password));
-//        }
-//
-//        userRepo.save(user);
-//
-//        if (isEmailChanged) {
-//            sendMessage(user);
-//        }
-//    }
+    public List<User> findOnlyUsersAll() {
+        return userRepo.findUserOnlyHasNotEqualsToTheAdmin();
+    }
+
+    /* ------------------ Javascript - Ajax "test" SPACE ------------------ */
+    public List<UsersDto> findOnlyUsersAllTest() {
+        return userRepo.findUserOnlyHasNotEqualsToTheAdmin()
+                .stream()
+                .map(usersConverter::fromUserToUserDto)
+                .collect(Collectors.toList());
+    }
+    public UsersDto saveUser(UsersDto usersDto) throws ValidationException, ParseException {
+
+        validateUserDto(usersDto); //*
+
+        Date date1 = inputformatForDate.parse(LocalDateTime.parse(usersDto.getDate()).toString());
+        String mainOutputTime = outputformatForDate.format(date1);
+
+        userRepo.addUserTime(usersDto.getRoomNumber(), mainOutputTime);
+
+        User savedUser = findByRoomNumber(usersDto.getRoomNumber());//* - has modificated
+
+        return usersConverter.fromUserToUserDto(savedUser); //*
+    }
+    private void validateUserDto(UsersDto usersDto) throws ValidationException {
+        if (isNull(usersDto)) {
+            throw new ValidationException("Object time is null");
+        }
+        if (isNull(usersDto.getDate()) || usersDto.getDate().isEmpty()) {
+            throw new ValidationException("Date is empty");
+        }
+    }
+    /* --- --- */
+
+    public User findByCardNumber(int cardNumber) {
+        return userRepo.findByCardNumber(cardNumber);
+    }
+
+/*    public void updateProfile(User user, String password, String email) {
+        String userEmail = user.getEmail();
+
+        boolean isEmailChanged = (email != null && !email.equals(userEmail)) ||
+                (userEmail != null && !userEmail.equals(email));
+
+        if (isEmailChanged) {
+            user.setEmail(email);
+
+            if (!StringUtils.isEmpty(email)) {
+                user.setActivationCode(UUID.randomUUID().toString());
+            }
+        }
+
+        if (!StringUtils.isEmpty(password)) {
+            user.setPassword(passwordEncoder.encode(password));
+        }
+
+        userRepo.save(user);
+
+        if (isEmailChanged) {
+            sendMessage(user);
+        }
+    }*/
 }

@@ -44,7 +44,7 @@ public class UserController {
         return "redirect:/user";
     }
 
-    // /user{username} : GET
+    // /user/{username} : GET
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("{username}")
     public String userEditForm(
@@ -57,19 +57,16 @@ public class UserController {
         return "userEdit";
     }
 
-    // /user{username}/{userId} : GET
+    // /user/{username}/{userId} : GET
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("{username}/{userId}")
+    @GetMapping("{username}/{userRoomNumber}")
     public String userDelete(
             @PathVariable String username,
-            @PathVariable Long userId,
-            Model model) {
+            @PathVariable int userRoomNumber) {
 
-        userService.deleteById(userId);
+        userService.flushUserOnlyDateById_Service(userRoomNumber);
 
-        model.addAttribute("users", userService.findAll());
-
-        return "userList";
+        return "redirect:/";
     }
 
     // /user/profile : GET

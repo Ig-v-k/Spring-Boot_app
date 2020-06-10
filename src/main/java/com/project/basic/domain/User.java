@@ -7,14 +7,13 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Set;
 
 @Entity
 @Table(name = "usr")
-public class User implements UserDetails {
-
+public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -41,7 +40,7 @@ public class User implements UserDetails {
     @Max(value = 550, message = "must be equal or less than 550")
     private int roomNumber;
 
-    private String usrdate;
+    private String user_date;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -150,11 +149,11 @@ public class User implements UserDetails {
     }
 
     public String getDate() {
-        return usrdate;
+        return user_date;
     }
 
-    public void setDate(String usrdate) {
-        this.usrdate = usrdate;
+    public void setDate(String user_date) {
+        this.user_date = user_date;
     }
 
     @Override
@@ -162,7 +161,7 @@ public class User implements UserDetails {
         return "User info:\n" +
                 "username -> " + this.username + "\n" +
                 "password -> " + this.password + "\n" +
-                "usrdate -> " + this.usrdate + "\n" +
+                "user_date -> " + this.user_date + "\n" +
 //                "email -> " + this.email + "\n" +
                 "active -> " + this.active + "\n" +
                 "activationCode -> " + this.activationCode + "\n" +

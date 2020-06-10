@@ -23,17 +23,18 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/user">User list</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app">Key</a>
+                </li>
             </#if>
-<#--            <#if user??>-->
-<#--                <li class="nav-item">-->
-<#--                    <a class="nav-link" href="/user/profile">Profile</a>-->
-<#--                </li>-->
-<#--            </#if>-->
-            <li class="nav-item">
-                <a class="nav-link" href="/app">Key</a>
-            </li>
+            <#if user??>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/profile">Profile</a>
+                </li>
+            </#if>
+
         </ul>
-        <div class="navbar-text mr-3">${name}</div>
+        <div class="navbar-text mr-3"><#if user??>${name}</#if></div>
         <@l.logout />
 
 <#--    <div class="collapse navbar-collapse" id="navbarSupportedContent">-->

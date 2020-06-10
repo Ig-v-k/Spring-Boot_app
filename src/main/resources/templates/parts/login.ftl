@@ -1,3 +1,4 @@
+<#include "security.ftl">
 <#macro login path isRegisterForm>
     <form class="form-signin" action="${path}" method="post">
 
@@ -108,6 +109,15 @@
                 </label>
             </div>
 
+            <div class="col-md-auto" align="center">
+                <div class="g-recaptcha" data-sitekey="6LeDuvYUAAAAAMvOvA0SvkxPHkCRjVC6RYClNs95"></div>
+                <#if captchaError??>
+                    <div class="alert alert-danger" role="alert">
+                        ${captchaError}
+                    </div>
+                </#if>
+            </div>
+
             <div class="row justify-content-center">
                 <div class="col-4">
                     <#if !isRegisterForm><a href="/registration">Add new user</a><#else><a href="/login">Sign in</a></#if>
@@ -125,8 +135,8 @@
 </#macro>
 
 <#macro logout>
-    <form action="/logout" method="post">
+    <form action="<#if user??>/logout<#else>http://localhost:8080/login.ftl</#if>" method="post">
         <input type="hidden" name="_csrf" value="${_csrf.token}" />
-        <button class="btn btn-primary" type="submit">Sign Out</button>
+        <button class="btn btn-primary" type="submit"><#if user??>Sign Out<#else>Sign in</#if></button>
     </form>
 </#macro>
