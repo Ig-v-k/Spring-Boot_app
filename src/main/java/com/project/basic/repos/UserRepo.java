@@ -21,7 +21,7 @@ public interface UserRepo extends JpaRepository<User, Long> {
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query("update User usr set usr.user_date =:newUsrDate where usr.roomNumber =:userRoomNumber")
-    void flushUserOnlyDateById_Repository(@Param("newUsrDate") String stringDateNull, @Param("userRoomNumber") int userRoomNumber);
+    void deleteUserOnlyDateById_Repository(@Param("newUsrDate") String stringDateNull, @Param("userRoomNumber") int userRoomNumber);
 
     @Transactional
     @Modifying(clearAutomatically = true)

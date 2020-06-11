@@ -3,7 +3,6 @@ package com.project.basic.service;
 import com.project.basic.domain.Role;
 import com.project.basic.domain.User;
 import com.project.basic.domain.dto.UsersDto;
-import com.project.basic.exeption.ValidationException;
 import com.project.basic.repos.UserRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,8 +17,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static java.util.Objects.isNull;
 
 @Service
 @AllArgsConstructor
@@ -88,9 +85,7 @@ public class UserService implements UserDetailsService {
         }
 
         user.setActivationCode(null);
-
         userRepo.save(user);
-
         return true;
     }
 
@@ -120,8 +115,8 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
     }
 
-    public void flushUserOnlyDateById_Service(int userRoomNumber) {
-        userRepo.flushUserOnlyDateById_Repository(null, userRoomNumber);
+    public void deleteUserOnlyDateById_Service(int userRoomNumber) {
+        userRepo.deleteUserOnlyDateById_Repository(null, userRoomNumber);
     }
 
     public void addUserTime(int roomNumber, LocalDateTime date) throws ParseException {
@@ -147,11 +142,11 @@ public class UserService implements UserDetailsService {
                 .map(usersConverter::fromUserToUserDto)
                 .collect(Collectors.toList());
     }
-    public UsersDto saveUser(UsersDto usersDto) throws ValidationException, ParseException {
+/*    public UsersDto saveUser(UsersDto usersDto) throws ValidationException, ParseException {
 
         validateUserDto(usersDto); //*
 
-        Date date1 = inputformatForDate.parse(LocalDateTime.parse(usersDto.getDate()).toString());
+        Date date1 = inputformatForDate.parse(usersDto.getDate()).toString();
         String mainOutputTime = outputformatForDate.format(date1);
 
         userRepo.addUserTime(usersDto.getRoomNumber(), mainOutputTime);
@@ -167,7 +162,7 @@ public class UserService implements UserDetailsService {
         if (isNull(usersDto.getDate()) || usersDto.getDate().isEmpty()) {
             throw new ValidationException("Date is empty");
         }
-    }
+    }*/
     /* --- --- */
 
     public User findByCardNumber(int cardNumber) {

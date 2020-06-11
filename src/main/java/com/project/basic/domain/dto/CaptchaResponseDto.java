@@ -2,10 +2,14 @@ package com.project.basic.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@NoArgsConstructor
+@Data
 public class CaptchaResponseDto {
 
     private boolean success;
@@ -15,17 +19,5 @@ public class CaptchaResponseDto {
 
     public boolean isSuccess() {
         return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public Set<String> getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(Set<String> errorCode) {
-        this.errorCode = errorCode;
     }
 }

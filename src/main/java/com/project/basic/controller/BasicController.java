@@ -1,6 +1,7 @@
 package com.project.basic.controller;
 
 import com.project.basic.domain.User;
+import com.project.basic.domain.dto.UsersDto;
 import com.project.basic.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
@@ -9,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,6 +25,7 @@ public class BasicController {
 
     private final UserService userService;
 
+    //    path:http://localhost:8080/*
     @GetMapping("/")
     public String greeting(
             Model model) {
@@ -32,15 +35,24 @@ public class BasicController {
         return "appHome";
     }
 
+    //    path:http://localhost:8080/app
     @GetMapping("/app")
-    public String keysMainPage(
-            Model model) {
+    public String keysMainPage() {
+        return "timer_page";
+    }
 
-        getOnlyNotNull(model);
+    //    path:http://localhost:8080/app/{userRoomNumber}
+    @GetMapping("/app/{userRoomNumber}")
+    public String keysMainPage(
+            Model model,
+            @PathVariable int userRoomNumber) {
+
+        model.addAttribute("userRoomNumberForEdit", userRoomNumber);
 
         return "timer_page";
     }
 
+    //    path:http://localhost:8080/ttime
     @PostMapping("/ttime")
     public String keysTimeUrl(
             Model model,
