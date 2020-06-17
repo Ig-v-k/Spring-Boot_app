@@ -1,7 +1,6 @@
 package com.project.basic.controller;
 
 import com.project.basic.domain.User;
-import com.project.basic.domain.dto.UsersDto;
 import com.project.basic.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;

@@ -3,6 +3,7 @@ package com.project.basic.controller;
 import com.project.basic.domain.User;
 import com.project.basic.domain.dto.CaptchaResponseDto;
 import com.project.basic.service.UserService;
+import lombok.extern.java.Log;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,11 +19,11 @@ import org.springframework.web.client.RestTemplate;
 import javax.validation.Valid;
 import java.util.Collections;
 import java.util.Map;
-import java.util.logging.Logger;
 
 @Controller
+@Log
 public class RegistrationController implements com.project.basic.utils.StringUtils {
-    private static final Logger LOGGER = Logger.getLogger(RegistrationController.class.getName());
+
     private final UserService userService;
 
     @Autowired
