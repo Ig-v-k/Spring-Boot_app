@@ -2,7 +2,7 @@
 <#macro login path isRegisterForm>
     <form class="form-signin" action="${path}" method="post">
 
-        <img class="mb-4" src="/static/laundryKey.png" alt="" width="72" height="72">
+        <img class="mb-4" src="/static/img/laundryKey.png" alt="" width="72" height="72">
         <h1 class="h3 mb-3 font-weight-normal"><#if isRegisterForm>Registration<#else>Sign in</#if></h1>
 
         <div class="container">

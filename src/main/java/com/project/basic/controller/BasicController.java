@@ -1,9 +1,12 @@
 package com.project.basic.controller;
 
+import com.project.basic.component.PusherWrapperResponse;
 import com.project.basic.domain.User;
 import com.project.basic.service.UserService;
+import com.pusher.rest.Pusher;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 @Controller
@@ -22,12 +26,18 @@ import java.util.stream.Collectors;
 @Log
 public class BasicController {
 
+    @Autowired
+    private final PusherWrapperResponse pusherWrapperResponse;
+
+    @Autowired
     private final UserService userService;
 
     //    path:http://localhost:8080/*
     @GetMapping("/")
     public String greeting(
             Model model) {
+
+        pusherWrapperResponse.setPusherWrapperTrigger("my-channel", "my-event", Collections.singletonMap("message", "Hello World"));
 
         getOnlyNotNull(model);
 
