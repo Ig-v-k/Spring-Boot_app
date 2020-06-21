@@ -2,11 +2,15 @@
   "name": "laundrykey",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "dependencies": {
-    "babel-core": "^6.26.3",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.10.3",
+    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/preset-env": "^7.10.3",
+    "@babel/preset-react": "^7.10.1",
     "babel-loader": "^8.1.0",
-    "babel-preset-env": "^1.7.0",
+    "html-webpack-plugin": "^4.3.0",
     "react": "^16.13.1",
     "react-chat-widget": "^3.0.5",
     "react-dom": "^16.13.1",
@@ -14,12 +18,11 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
   },
-  "devDependencies": {
-    "html-webpack-plugin": "^4.3.0"
-  },
   "scripts": {
-    "start": "webpack-dev-server --mode development --open --hot",
-    "build": "webpack --mode production"
+    "webpack": "webpack",
+    "start": "webpack-dev-server --mode development --open --hot --config webpack.config.dev.js",
+    "build.production": "webpack --mode production",
+    "build.dev": "webpack --mode development"
   },
   "repository": {
     "type": "git",

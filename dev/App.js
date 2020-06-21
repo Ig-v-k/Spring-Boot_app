@@ -1,11 +1,24 @@
 import React, { Component } from 'react';
-import { Widget } from 'react-chat-widget';
+import {addResponseMessage, Widget} from 'react-chat-widget';
 
 class App extends Component {
+    componentDidMount() {
+        addResponseMessage("Welcome to this awesome chat!");
+    }
+
+    handleNewUserMessage = (newMessage) => {
+        console.log(`New message incomig! ${newMessage}`);
+        addResponseMessage("Hello!!!");
+    }
+
     render() {
         return (
             <div className="App">
-            <Widget />
+                <Widget
+                    handleNewUserMessage={this.handleNewUserMessage}
+                    title="My new awesome title"
+                    subtitle="And my cool subtitle"
+                />
             </div>
         );
     }
