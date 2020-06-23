@@ -7,6 +7,7 @@ import lombok.extern.java.Log;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 @Controller
 @Log
+@PropertySource("classpath:application.properties")
 public class RegistrationController implements com.project.basic.utils.StringUtils {
 
     private final UserService userService;
