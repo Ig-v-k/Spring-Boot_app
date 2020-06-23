@@ -1,8 +1,8 @@
-package com.project.basic.controller;
+package java.com.project.basic.controller;
 
 //import com.project.basic.component.PusherWrapperResponse;
-import com.project.basic.domain.User;
-import com.project.basic.service.UserService;
+import java.com.project.basic.domain.User;
+import java.com.project.basic.service.UserService;
 import com.pusher.rest.Pusher;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;

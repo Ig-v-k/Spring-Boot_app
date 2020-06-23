@@ -1,7 +1,7 @@
-package com.project.basic.service;
+package java.com.project.basic.service;
 
-import com.project.basic.domain.User;
-import com.project.basic.domain.dto.UsersDto;
+import java.com.project.basic.domain.User;
+import java.com.project.basic.domain.dto.UsersDto;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package com.project.basic.exeption;
+package java.com.project.basic.exeption;
 
 public class ValidationException extends Exception {
 

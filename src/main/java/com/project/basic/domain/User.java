@@ -1,4 +1,4 @@
-package com.project.basic.domain;
+package java.com.project.basic.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

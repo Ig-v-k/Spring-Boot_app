@@ -1,8 +1,8 @@
-package com.project.basic.controller;
+package java.com.project.basic.controller;
 
-import com.project.basic.domain.Role;
-import com.project.basic.domain.User;
-import com.project.basic.service.UserService;
+import java.com.project.basic.domain.Role;
+import java.com.project.basic.domain.User;
+import java.com.project.basic.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;

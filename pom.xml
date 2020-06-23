@@ -139,7 +139,7 @@
     <build>
         <resources>
             <resource>
-                <directory>../</directory>
+                <directory>/</directory>
                 <targetPath>${project.build.outputDirectory}</targetPath>
                 <includes>
                     <include>application.properties</include>

@@ -1,6 +1,6 @@
-package com.project.basic.repos;
+package java.com.project.basic.repos;
 
-import com.project.basic.domain.User;
+import java.com.project.basic.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
