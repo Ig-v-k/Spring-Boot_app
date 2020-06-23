@@ -1,5 +1,6 @@
 --  create table hibernate_sequence (next BIGINT);
 --  insert into hibernate_sequence values (1);
+create extension if not exists cron;
 
 create sequence hibernate_sequence start 1 increment 1;
 
