@@ -116,7 +116,6 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
     }
 
-    @Scheduled(cron = "* 1 * * *")
     public void deleteUserOnlyDateById_Service(int userRoomNumber) {
         userRepo.deleteUserOnlyDateById_Repository(null, userRoomNumber);
     }

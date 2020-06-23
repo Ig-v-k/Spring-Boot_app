@@ -1,6 +1,6 @@
 --  create table hibernate_sequence (next BIGINT);
 --  insert into hibernate_sequence values (1);
-create extension if not exists cron;
+-- create extension if not exists cron;
 
 create sequence hibernate_sequence start 1 increment 1;
 
@@ -29,6 +29,6 @@ alter table user_role
 
 -- create event my_event1 on schedule every 1 minute do begin update usr set user_date = null where card_number > 1 and room_number > 1; end;
 
-SELECT cron.schedule('1 * * * *', $$UPDATE usr SET user_date = null WHERE card_number \gr 1'1 minutes'$$)
+-- SELECT cron.schedule('1 * * * *', $$UPDATE usr SET user_date = null WHERE card_number \gr 1'1 minutes'$$)
 
 -- set global event_scheduler = on;
