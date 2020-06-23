@@ -5,6 +5,7 @@ import com.project.basic.domain.User;
 import com.project.basic.domain.dto.UsersDto;
 import com.project.basic.repos.UserRepo;
 import lombok.AllArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -115,6 +116,7 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
     }
 
+    @Scheduled(cron = "* 1 * * *")
     public void deleteUserOnlyDateById_Service(int userRoomNumber) {
         userRepo.deleteUserOnlyDateById_Repository(null, userRoomNumber);
     }
