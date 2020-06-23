@@ -137,6 +137,15 @@
         <java.version>1.8</java.version>
     </properties>
     <build>
+        <resources>
+            <resource>
+                <directory>../</directory>
+                <targetPath>${project.build.outputDirectory}</targetPath>
+                <includes>
+                    <include>application.properties</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.flywaydb</groupId>
