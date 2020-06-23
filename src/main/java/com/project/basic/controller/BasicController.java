@@ -25,9 +25,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Log
 public class BasicController {
-
-    @Autowired
-    private final PusherWrapperResponse pusherWrapperResponse;
+//
+//    @Autowired
+//    private final PusherWrapperResponse pusherWrapperResponse;
 
     @Autowired
     private final UserService userService;
@@ -37,7 +37,7 @@ public class BasicController {
     public String greeting(
             Model model) {
 
-        pusherWrapperResponse.setPusherWrapperTrigger("my-channel", "my-event", Collections.singletonMap("message", "Hello World"));
+//        pusherWrapperResponse.setPusherWrapperTrigger("my-channel", "my-event", Collections.singletonMap("message", "Hello World"));
 
         getOnlyNotNull(model);
 
