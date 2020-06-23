@@ -23,7 +23,6 @@ import java.util.Map;
 
 @Controller
 @Log
-@PropertySource("classpath:application.properties")
 public class RegistrationController implements com.project.basic.utils.StringUtils {
 
     private final UserService userService;
