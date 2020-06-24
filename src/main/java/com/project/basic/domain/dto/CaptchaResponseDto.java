@@ -1,4 +1,4 @@
-package java.com.project.basic.domain.dto;
+package com.project.basic.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

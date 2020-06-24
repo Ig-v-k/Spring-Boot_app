@@ -1,8 +1,8 @@
-package java.com.project.basic.controller;
+package com.project.basic.controller;
 
-import java.com.project.basic.domain.User;
-import java.com.project.basic.domain.dto.CaptchaResponseDto;
-import java.com.project.basic.service.UserService;
+import com.project.basic.domain.User;
+import com.project.basic.domain.dto.CaptchaResponseDto;
+import com.project.basic.service.UserService;
 import lombok.extern.java.Log;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.util.Map;
 
 @Controller
 @Log
-public class RegistrationController implements java.com.project.basic.utils.StringUtils {
+public class RegistrationController implements com.project.basic.utils.StringUtils {
 
     private final UserService userService;
 

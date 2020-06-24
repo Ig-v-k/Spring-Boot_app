@@ -1,4 +1,4 @@
-package java.com.project.basic.domain.dto;
+package com.project.basic.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

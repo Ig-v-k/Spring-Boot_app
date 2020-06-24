@@ -1,9 +1,9 @@
-package java.com.project.basic.service;
+package com.project.basic.service;
 
-import java.com.project.basic.domain.Role;
-import java.com.project.basic.domain.User;
-import java.com.project.basic.domain.dto.UsersDto;
-import java.com.project.basic.repos.UserRepo;
+import com.project.basic.domain.Role;
+import com.project.basic.domain.User;
+import com.project.basic.domain.dto.UsersDto;
+import com.project.basic.repos.UserRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;

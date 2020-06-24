@@ -1,8 +1,8 @@
-package java.com.project.basic.controller;
+package com.project.basic.controller;
 
-import java.com.project.basic.domain.User;
-import java.com.project.basic.domain.dto.UsersDto;
-import java.com.project.basic.service.UserService;
+import com.project.basic.domain.User;
+import com.project.basic.domain.dto.UsersDto;
+import com.project.basic.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

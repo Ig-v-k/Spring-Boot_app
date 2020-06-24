@@ -1,6 +1,6 @@
-package java.com.project.basic.config;
+package com.project.basic.config;
 
-import java.com.project.basic.service.UserService;
+import com.project.basic.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

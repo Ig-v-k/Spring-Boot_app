@@ -1,6 +1,6 @@
-package java.com.project.basic;
+package com.project.basic;
 
-import java.com.project.basic.controller.BasicController;
+import com.project.basic.controller.BasicController;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
